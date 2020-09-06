@@ -1,6 +1,12 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+//    Примеры для разных стилей:
+//#1 getMarkResult_ScoreIs100_ResultIs5
+//#3 testResultIs4IfScoreMoreThan60AndLessThan80
+//#5 Should_BeMark2_When_ScoreIs0
+//   Should_ReturnMark3_When_ScoreMoreThan60AndLessThan80
+
 public class SimpleTests {
 
     // Тестируем ИМТ
@@ -279,9 +285,85 @@ public class SimpleTests {
         if(mark>72 && mark<100) return "5";
         return "no mark result";
     }
-//    Примеры для разных стилей:
-//#1 getMarkResult_ScoreIs100_ResultIs5
-//#3 testResultIs4IfScoreMoreThan60AndLessThan80
-//#5 Should_BeMark2_When_ScoreIs0
-//   Should_ReturnMark3_When_ScoreMoreThan60AndLessThan80
+
+    //Тестируем формулу расчета процента от стоимости билета
+
+    @Test
+    public void Should_Be100_When_hoursBeforeConcertIs241() {
+        var actualResult = getRefundTicketPricePercent(241, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("100", actualResultString);
+    }
+
+    @Test
+    public void Should_Be50_When_hoursBeforeConcertIs240() {
+        var actualResult = getRefundTicketPricePercent(240, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("50", actualResultString);
+    }
+
+    @Test
+    public void Should_Be50_When_hoursBeforeConcertIs145() {
+        var actualResult = getRefundTicketPricePercent(145, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("50", actualResultString);
+    }
+
+    @Test
+    public void Should_Be30_When_hoursBeforeConcertIs144() {
+        var actualResult = getRefundTicketPricePercent(144, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("30", actualResultString);
+    }
+
+    @Test
+    public void Should_Be100_When_hoursBeforeConcertIs73() {
+        var actualResult = getRefundTicketPricePercent(73, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("30", actualResultString);
+    }
+
+    @Test
+    public void Should_Be0_When_hoursBeforeConcertIs72() {
+        var actualResult = getRefundTicketPricePercent(72, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("0", actualResultString);
+    }
+
+    @Test
+    public void Should_Be100_When_hoursBeforeConcertIs50() {
+        var actualResult = getRefundTicketPricePercent(50, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("0", actualResultString);
+    }
+
+    @Test
+    public void Should_Be100_When_hoursBeforeConcertIs0() {
+        var actualResult = getRefundTicketPricePercent(0, false, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("0", actualResultString);
+    }
+
+    @Test
+    public void Should_Be100_When_hoursBeforeConcertIs50AndConcertWasCancelled() {
+        var actualResult = getRefundTicketPricePercent(50, true, false);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("100", actualResultString);
+    }
+
+    @Test
+    public void Should_Be100_When_hoursBeforeConcertIs50AndConcertWasRescheduled() {
+        var actualResult = getRefundTicketPricePercent(50, false, true);
+        String actualResultString = String.valueOf(actualResult);
+        Assert.assertEquals("100", actualResultString);
+    }
+
+    private Integer getRefundTicketPricePercent(Integer hoursBeforeConcert, Boolean wasConcertCancelled, Boolean wasConcertRescheduled)
+    {
+        if(wasConcertCancelled && wasConcertRescheduled) return 100;
+        if(hoursBeforeConcert>240) return 100;
+        if(hoursBeforeConcert>=144 && hoursBeforeConcert<=240) return 50;
+        if(hoursBeforeConcert>3 && hoursBeforeConcert<=144) return 30;
+        return 0;
+    }
 }
