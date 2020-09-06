@@ -1,0 +1,9 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/misc.xml
+/jarRepositories.xml
+
+drivers/chromedriver
+/MyIM.iml
+/pom.xml
